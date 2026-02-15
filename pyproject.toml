@@ -1,0 +1,22 @@
+[project]
+name = "visualisations"
+version = "0.1.0"
+description = ""
+readme = "README.md"
+requires-python = ">=3.13"
+
+dependencies = [
+    "flask",
+    "gunicorn",
+    "python-dotenv",
+    "psycopg2-binary",
+    "flask-sqlalchemy",
+    "flask-migrate",
+]
+
+[dependency-groups]
+dev = [
+    "pytest",
+    "pre-commit",
+    "ruff",
+]

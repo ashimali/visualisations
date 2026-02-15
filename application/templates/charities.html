@@ -1,0 +1,73 @@
+{% extends "base.html" %} {% block title %}Top 10 charities — Visualisation
+samples{% endblock %} {% block content %}
+<h1>Top 10 charities</h1>
+<p>
+    The source data is from the
+    <a
+        href="https://register-of-charities.charitycommission.gov.uk/en/sector-data/top-10-charities"
+        >Charity Commission top 10 charities</a
+    >
+    page, which provides a CSV download containing data for each measure
+    (income, expenditure, etc.).
+</p>
+<p>
+    The source data includes other measures (investments, employees, volunteers,
+    etc.) but the charts below cover income, expenditure, and their year-on-year
+    growth.
+</p>
+<p>The following processing was done on source data:</p>
+<ul>
+    <li>
+        Filtering to four measures: income, expenditure, income growth,
+        expenditure growth
+    </li>
+    <li>Formatting values as pounds sterling</li>
+    <li>Formatting as millions or billions accoring to what suited chart</li>
+</ul>
+<p>Publisher: Charity Commission for England and Wales</p>
+
+<hr />
+
+{% for chart in charts %}
+<h2>{{ chart.title }}</h2>
+<div id="chart-{{ loop.index }}" style="margin-top: 1.5rem"></div>
+{% if not loop.last %}
+<hr />
+{% endif %} {% endfor %} {% endblock %} {% block scripts %}
+<script>
+    {% for chart in charts %}
+    Highcharts.chart('chart-{{ loop.index }}', {
+        chart: { type: 'bar' },
+        title: { text: null },
+        xAxis: {
+            categories: {{ chart.categories | safe }},
+            title: { text: null }
+        },
+        yAxis: {
+            title: { text: null },
+            labels: {
+                formatter: function () {
+                    {% if chart.unit == 'bn' %}
+                    return '£' + Highcharts.numberFormat(Math.abs(this.value) / 1e9, 1) + 'bn';
+                    {% else %}
+                    return '£' + Highcharts.numberFormat(Math.abs(this.value) / 1e6, 0) + 'm';
+                    {% endif %}
+                }
+            }
+        },
+        tooltip: {
+            formatter: function () {
+                return this.point.category + '<br/>' +
+                    this.series.name + ': <b>£' +
+                    Highcharts.numberFormat(Math.abs(this.y), 0) + '</b>';
+            }
+        },
+        legend: { enabled: false },
+        series: [{
+            name: '{{ chart.title }}',
+            data: {{ chart.data | safe }}
+        }]
+    });
+    {% endfor %}
+</script>
+{% endblock %}

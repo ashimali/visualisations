@@ -1,0 +1,14 @@
+{% extends "base.html" %} {% block title %}data-sandbox{% endblock %} {% block
+content %}
+<ul>
+    <li>
+        <a href="{{ url_for('house_prices.index') }}"
+            >UK Average house prices</a
+        >
+    </li>
+    <li><a href="{{ url_for('elections.index') }}">UK Election results</a></li>
+    <li><a href="{{ url_for('bank_rate.index') }}">Bank of England Bank Rate</a></li>
+    <li><a href="{{ url_for('companies_house.index') }}">Companies House register activity</a></li>
+    <li><a href="{{ url_for('charities.index') }}">Top 10 charities</a></li>
+</ul>
+{% endblock %}

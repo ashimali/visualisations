@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="mobile-web-app-capable" content="yes" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>{% block title %}Visualisation samples{% endblock %}</title>
+        <link
+            rel="stylesheet"
+            href="https://cdn.ons.gov.uk/sdc/design-system/62.0.1/css/main.css"
+        />
+        {% block head %}{% endblock %}
+    </head>
+    <body>
+        <div class="ons-page">
+            <div class="ons-page__header">
+                <header class="ons-header" role="banner">
+                    <div class="ons-header__top">
+                        <div class="ons-container">
+                            <div class="ons-header__title">
+                                <a href="/"
+                                    >{% block titlebar_service %}Visualisation
+                                    samples{% endblock %}</a
+                                >
+                            </div>
+                        </div>
+                    </div>
+                </header>
+            </div>
+
+            <div class="ons-page__body">
+                <div class="ons-container">
+                    {% block content %} {% endblock %}
+                </div>
+            </div>
+        </div>
+
+        <script src="https://cdn.ons.gov.uk/sdc/design-system/62.0.1/scripts/main.js"></script>
+        <script src="https://code.highcharts.com/highcharts.js"></script>
+        <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+        {% block scripts %}{% endblock %}
+    </body>
+</html>

@@ -1,0 +1,129 @@
+{% extends "base.html" %} {% block title %}UK House Prices — Visualisation
+samples{% endblock %} {% block content %}
+<h1>UK Average house prices (seasonally adjusted)</h1>
+<p>
+    The data for these graphs is available from the
+    <a
+        href="https://www.gov.uk/government/statistical-data-sets/uk-house-price-index-data-downloads-november-2025"
+        >UK House Price Index</a
+    >
+    published on gov.uk.
+</p>
+<p>The following minimal processing was done on source data</p>
+<ul>
+    <li>Filtering regions</li>
+    <li>Converting dates to timestamps for Highcharts</li>
+    <li>Sorting by price for the bar chart</li>
+</ul>
+<p>
+    Source:
+    <a
+        href="https://www.gov.uk/government/statistical-data-sets/uk-house-price-index-data-downloads-november-2025"
+    >
+        UK House Price Index data downloads, November 2025
+    </a>
+</p>
+<p>
+    Dataset:
+    <a
+        href="https://publicdata.landregistry.gov.uk/market-trend-data/house-price-index-data/Average-price-seasonally-adjusted-2025-11.csv"
+    >
+        CSV
+    </a>
+</p>
+<p>Publisher: HM Land Registry</p>
+
+<hr />
+
+<h2>Average house price by region since 1995</h2>
+<p>
+    Monthly seasonally adjusted average house prices for each region. Click a
+    region in the legend to show or hide it.
+</p>
+<div id="chart-all-regions" style="margin-top: 1.5rem"></div>
+
+<hr />
+
+<h2>Comparing the nations</h2>
+<p>Average house prices for England, Wales, Scotland and the UK as a whole.</p>
+<div id="chart-nations" style="margin-top: 1.5rem"></div>
+
+<hr />
+
+<h2>Latest snapshot: {{ latest_date }}</h2>
+<p>Average house price by region for the most recent month of data.</p>
+<div id="chart-bar" style="margin-top: 1.5rem"></div>
+{% endblock %} {% block scripts %}
+<script>
+    var commonLineOptions = {
+      chart: { zoomType: 'x' },
+      xAxis: {
+        type: 'datetime',
+        title: { text: 'Date' }
+      },
+      yAxis: {
+        title: { text: 'Average price (£)' },
+        labels: {
+          formatter: function () {
+            return '£' + Highcharts.numberFormat(this.value, 0, '.', ',');
+          }
+        }
+      },
+      tooltip: {
+        shared: true,
+        valuePrefix: '£',
+        valueDecimals: 0
+      },
+      plotOptions: {
+        series: {
+          marker: { enabled: false }
+        }
+      }
+    };
+
+    // Chart 1: All regions
+    Highcharts.chart('chart-all-regions', Highcharts.merge(commonLineOptions, {
+      chart: { zoomType: 'x', height: 500 },
+      title: { text: null },
+      series: {{ all_regions_series | safe }},
+      legend: {
+        enabled: true,
+        layout: 'horizontal',
+        align: 'center'
+      }
+    }));
+
+    // Chart 2: Nations
+    Highcharts.chart('chart-nations', Highcharts.merge(commonLineOptions, {
+      title: { text: null },
+      series: {{ nations_series | safe }}
+    }));
+
+    // Chart 3: Bar chart
+    Highcharts.chart('chart-bar', {
+      chart: { type: 'bar' },
+      title: { text: null },
+      xAxis: {
+        categories: {{ bar_categories | safe }},
+        title: { text: null }
+      },
+      yAxis: {
+        title: { text: 'Average price (£)' },
+        labels: {
+          formatter: function () {
+            return '£' + Highcharts.numberFormat(this.value, 0, '.', ',');
+          }
+        }
+      },
+      tooltip: {
+        valuePrefix: '£',
+        valueDecimals: 0
+      },
+      legend: { enabled: false },
+      series: [{
+        name: 'Average price',
+        data: {{ bar_values | safe }}
+      }]
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,109 @@
+{% extends "base.html" %} {% block title %}Companies House — Visualisation
+samples{% endblock %} {% block head %}
+<style>
+    .headlines {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        margin: 0 auto;
+        padding: 24px 0px 24px 0;
+    }
+
+    .headline-card {
+        border-left: 4px solid #ddd;
+        padding: 24px;
+        background: white;
+    }
+
+    .headline-card:last-child {
+        border-right: 4px solid #ddd;
+    }
+
+    .headline-title {
+        font-size: 28px;
+        font-weight: 600;
+        margin: 0;
+    }
+
+    .headline-subtitle {
+        font-size: 16px;
+        color: #555;
+        margin: 8px 0 20px;
+    }
+
+    .headline-number {
+        font-size: 64px;
+        font-weight: 700;
+        margin: 10px 0;
+    }
+
+    .headline-note {
+        font-size: 16px;
+        color: #444;
+        margin: 12px 0;
+        line-height: 1.4;
+    }
+
+    .headline-change {
+        font-size: 22px;
+        font-weight: 700;
+        margin-top: 14px;
+    }
+
+    .headline-change.up {
+        color: #137333;
+    }
+
+    .headline-change.down {
+        color: #b00020;
+    }
+</style>
+{% endblock %} {% block content %}
+<h1>Companies House register activity</h1>
+<p>
+    Annual register activity data from
+    <a
+        href="https://www.gov.uk/government/statistics/companies-register-activities-statistical-release-april-2024-to-march-2025"
+        >Companies House statistical releases</a
+    >.
+</p>
+<p>
+    Source:
+    <a
+        href="https://assets.publishing.service.gov.uk/media/687f74b128f29c99778a744a/Companies_register_activities_April_2024_to_March_2025.xlsx"
+        >Excel spreadsheet</a
+    >
+    from page above.
+</p>
+<p>
+    Note: The infographics below were created using the last two financial years
+    from table A8 in the above spreadsheet.
+</p>
+<p>The following processing was done on source data:</p>
+<ul>
+    <li>Parsing comma formatted numbers</li>
+    <li>Computing year-on-year change</li>
+    <li>Computing net register growth (formations minus dissolutions)</li>
+</ul>
+<p>Publisher: Companies House</p>
+
+<hr />
+
+<div class="headlines">
+    {% for headline in headlines %}
+    <div class="headline-card">
+        <h2 class="headline-title">{{ headline.title }}</h2>
+        <p class="headline-subtitle">{{ headline.subtitle }}</p>
+        <div class="headline-number">{{ "{:,}".format(headline.current) }}</div>
+        <p class="headline-note">
+            {{ "Down" if headline.change < 0 else "Up" }} from {{
+            "{:,}".format(headline.previous) }} in FYE {{ prev_fye }}
+        </p>
+        <div class="headline-change {{ headline.direction }}">
+            {{ "▼" if headline.change < 0 else "▲" }} {{
+            "{:+,}".format(headline.change) }} ({{
+            "{:+.1f}".format(headline.change_per_cent) }}%)
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
