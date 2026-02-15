@@ -2,18 +2,14 @@
 samples{% endblock %} {% block content %}
 <h1>Top 10 charities</h1>
 <p>
-    The source data is from the
+    The data for these graphs is available from the
     <a
         href="https://register-of-charities.charitycommission.gov.uk/en/sector-data/top-10-charities"
         >Charity Commission top 10 charities</a
     >
-    page, which provides a CSV download containing data for each measure
-    (income, expenditure, etc.).
-</p>
-<p>
-    The source data includes other measures (investments, employees, volunteers,
-    etc.) but the charts below cover income, expenditure, and their year-on-year
-    growth.
+    page. The source data includes other measures (investments, employees,
+    volunteers, etc.) but the charts below cover income, expenditure, and their
+    year-on-year growth.
 </p>
 <p>The following processing was done on source data:</p>
 <ul>
@@ -22,8 +18,24 @@ samples{% endblock %} {% block content %}
         expenditure growth
     </li>
     <li>Formatting values as pounds sterling</li>
-    <li>Formatting as millions or billions accoring to what suited chart</li>
+    <li>Formatting as millions or billions according to what suited chart</li>
 </ul>
+<p>
+    Source:
+    <a
+        href="https://register-of-charities.charitycommission.gov.uk/en/sector-data/top-10-charities"
+    >
+        Top 10 charities, Charity Commission
+    </a>
+</p>
+<p>
+    Dataset:
+    <a
+        href="https://register-of-charities.charitycommission.gov.uk/en/sector-data/top-10-charities?p_p_id=uk_gov_ccew_onereg_sectordata_topcharities_web_portlet_SectorDataTopCharitiesPortlet_INSTANCE_XrL4bSuowub2&p_p_lifecycle=2&p_p_state=normal&p_p_mode=view&p_p_resource_id=export-results&p_p_cacheability=cacheLevelPage"
+    >
+        CSV
+    </a>
+</p>
 <p>Publisher: Charity Commission for England and Wales</p>
 
 <hr />
