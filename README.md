@@ -12,6 +12,6 @@ Then:
 
 Run the app
 
-    flask run
+    uv run flask run
 
 and have a look at http://localhost:5000
