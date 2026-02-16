@@ -9,13 +9,7 @@
             rel="stylesheet"
             href="https://cdn.ons.gov.uk/sdc/design-system/62.0.1/css/main.css"
     />
-    {% block head %}
-        <style>
-            .ons-page__body .ons-container {
-                padding-top: 20px;
-            }
-        </style>
-    {% endblock %}
+    {% block head %}{% endblock %}
 </head>
 <body>
 <div class="ons-page">
@@ -31,7 +25,7 @@
         </header>
     </div>
     <div class="ons-page__body">
-        <div class="ons-container">
+        <div class="ons-container" style="margin-bottom: 25px">
             <div class="ons-panel ons-panel--info ons-panel--no-title">
                 <span class="ons-panel__assistive-text ons-u-vh">Important information: </span>
                 <div class="ons-panel__body">
