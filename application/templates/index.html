@@ -1,19 +1,20 @@
 {% extends "base.html" %} {% block title %}Visualisation samples{% endblock %}
 {% block content %}
     <p>
-        The examples were created as illustration of charts and graphs that could be
-        created with no or minimal processing of readily available data from the
-        sources listed on each page.
+        The examples below are charts and graphs that could be created with minimal processing
+        of readily available data from the sources listed on each page.
     </p>
     <p>
         Highcharts was used, but these could be done with any one of a number of js
         libraries.
     </p>
     <p>
-        The data shown on page is assembled from csv files at runtime, but could
-        just as easily be converted to json at build time and rendered into static
-        pages.
+        The data shown on the pages is assembled from CSV files at runtime.
+        However, for our current approach the data could be converted to JSON for use at build time
+        to render into static pages.
     </p>
+    <p>This would allow us to add chart specific metadata to the JSON that is not in the
+        CSV source data.</p>
     <h2>Topics</h2>
     <ul>
         <li>
