@@ -1,20 +1,35 @@
 {% extends "base.html" %} {% block title %}Visualisation samples{% endblock %}
 {% block content %}
-<ul>
-    <li>
-        <a href="{{ url_for('house_prices.index') }}"
+    <p>
+        The examples were created as illustration of charts and graphs that could be
+        created with no or minimal processing of readily available data from the
+        sources listed on each page.
+    </p>
+    <p>
+        Highcharts was used, but these could be done with any one of a number of js
+        libraries.
+    </p>
+    <p>
+        The data shown on page is assembled from csv files at runtime, but could
+        just as easily be converted to json at build time and rendered into static
+        pages.
+    </p>
+    <h2>Topics</h2>
+    <ul>
+        <li>
+            <a href="{{ url_for('house_prices.index') }}"
             >UK Average house prices</a
-        >
-    </li>
-    <li><a href="{{ url_for('elections.index') }}">UK Election results</a></li>
-    <li>
-        <a href="{{ url_for('bank_rate.index') }}">Bank of England Bank Rate</a>
-    </li>
-    <li>
-        <a href="{{ url_for('companies_house.index') }}"
+            >
+        </li>
+        <li><a href="{{ url_for('elections.index') }}">UK Election results</a></li>
+        <li>
+            <a href="{{ url_for('bank_rate.index') }}">Bank of England Bank Rate</a>
+        </li>
+        <li>
+            <a href="{{ url_for('companies_house.index') }}"
             >Companies House register activity</a
-        >
-    </li>
-    <li><a href="{{ url_for('charities.index') }}">Top 10 charities</a></li>
-</ul>
+            >
+        </li>
+        <li><a href="{{ url_for('charities.index') }}">Top 10 charities</a></li>
+    </ul>
 {% endblock %}

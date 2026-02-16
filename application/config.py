@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 import os
+from pathlib import Path
 
 
 class Config(object):
-    APP_ROOT = os.path.abspath(os.path.dirname(__file__))
-    PROJECT_ROOT = os.path.abspath(os.path.join(APP_ROOT, os.pardir))
+    APP_ROOT = Path(__file__).parent.resolve()
+    PROJECT_ROOT = APP_ROOT.parent.resolve()
     SECRET_KEY = os.environ["SECRET_KEY"]
 
 

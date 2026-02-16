@@ -19,7 +19,7 @@ def index():
     seats_won = [int(r["Constituencies won"]) for r in with_seats]
     vote_shares = [round(float(r["Vote share"]), 1) for r in with_seats]
 
-    # For the seats vs votes comparison, express both as percentages
+    # For the seats vs votes comparison, create percentages
     total_seats = sum(int(r["Constituencies won"]) for r in records)
     seat_shares = [
         round(int(r["Constituencies won"]) / total_seats * 100, 1) for r in with_seats

@@ -11,7 +11,7 @@ bank_rate = Blueprint("bank_rate", __name__, template_folder="templates")
 def index():
     records = load_data("Bank Rate history and data  Bank of England Database.csv")
 
-    # CSV is already reverse chronological, most recent first, so we reverse to get oldest first
+    # CSV is in reverse chronological order, most recent first, reverse to get oldest first
     records.reverse()
 
     series_data = [[r["Date Changed"], float(r["Rate"])] for r in records]

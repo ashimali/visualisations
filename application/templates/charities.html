@@ -11,14 +11,14 @@ samples{% endblock %} {% block content %}
     volunteers, etc.) but the charts below cover income, expenditure, and their
     year-on-year growth.
 </p>
-<p>The following processing was done on source data:</p>
+<p>A few straightforward processing steps were applied to the source data</p>
 <ul>
     <li>
-        Filtering to four measures: income, expenditure, income growth,
+        Filtering of four measures: income, expenditure, income growth,
         expenditure growth
     </li>
     <li>Formatting values as pounds sterling</li>
-    <li>Formatting as millions or billions according to what suited chart</li>
+    <li>Formatting of numbers as millions or billions according to what suited chart</li>
 </ul>
 <p>
     Source:
@@ -37,7 +37,7 @@ samples{% endblock %} {% block content %}
     </a>
 </p>
 <p>Publisher: Charity Commission for England and Wales</p>
-
+<p><a href="https://github.com/ashimali/visualisations/blob/main/application/charities/views.py">Source code</a> (links to view method, js is in the template)</p>
 <hr />
 
 {% for chart in charts %}

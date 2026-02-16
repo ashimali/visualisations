@@ -1,13 +1,12 @@
-===============================
-visualisations
-===============================
+# Visualisation samples
 
 
 #### Prerequisites
 
 1. python 3
+2. [uv](https://docs.astral.sh/uv/)
 
-Create a virtualenv and activate it, and then:
+Then:
 
     make init
 

@@ -1,123 +1,126 @@
-{% extends "base.html" %} {% block title %}UK General Election 2024 —
-Visualisation samples{% endblock %} {% block content %}
-<h1>UK General Election, 4 July 2024</h1>
-<p>
-    The data for these graphs is available from the
-    <a href="https://electionresults.parliament.uk/elections"
+{% extends "base.html" %} {% block title %}UK General Election 2024 — Visualisation samples{% endblock %}
+
+{% block content %}
+    <h1>UK General Election, 4 July 2024</h1>
+    <p>
+        The data for these graphs is available from the
+        <a href="https://electionresults.parliament.uk/elections"
         >UK Parliament elections page</a
-    >.
-</p>
-<p>The following minimal processing was done on source data:</p>
-<ul>
-    <li>Filtering of parties that won at least one seat</li>
-    <li>Sorting by seats won</li>
-    <li>Calculating seat share percentages</li>
-</ul>
-<p>
-    Source:
-    <a href="https://electionresults.parliament.uk/general-elections/6"
+        >.
+    </p>
+    <p>A few straightforward processing steps were applied to the source data</p>
+    <ul>
+        <li>Filtering of parties that won at least one seat</li>
+        <li>Sorting by seats won</li>
+        <li>Calculating seat share percentages</li>
+    </ul>
+    <p>
+        Source:
+        <a href="https://electionresults.parliament.uk/general-elections/6"
         >Election results, Parliament UK</a
-    >
-</p>
-<p>
-    Dataset:
-    <a
-        href="https://electionresults.parliament.uk/general-elections/6/political-parties.csv"
+        >
+    </p>
+    <p>
+        Dataset:
+        <a
+                href="https://electionresults.parliament.uk/general-elections/6/political-parties.csv"
         >CSV</a
-    >
-</p>
-<p>Publisher: House of Commons</p>
+        >
+    </p>
+    <p>Publisher: House of Commons</p>
+    <p><a href="https://github.com/ashimali/visualisations/blob/main/application/elections/views.py">Source code</a> (links to view method, js is in the template)</p>
 
-<hr />
+    <hr/>
 
-<h2>Seats won by party</h2>
-<p>Number of seats won by party that won at least one seat.</p>
-<div id="chart-seats" style="margin-top: 1.5rem"></div>
+    <h2>Seats won by party</h2>
+    <p>Number of seats won by party that won at least one seat.</p>
+    <div id="chart-seats" style="margin-top: 1.5rem"></div>
 
-<hr />
+    <hr/>
 
-<h2>Vote share by party</h2>
-<p>Percentage of total votes cast for each party that won at least one seat.</p>
-<div id="chart-vote-share" style="margin-top: 1.5rem"></div>
+    <h2>Vote share by party</h2>
+    <p>Percentage of total votes cast for each party that won at least one seat.</p>
+    <div id="chart-vote-share" style="margin-top: 1.5rem"></div>
 
-<hr />
+    <hr/>
 
-<h2>Vote share v seat share</h2>
-<p>
-    Compare each party's share of the vote with their share of seats in
-    Parliament.
-</p>
-<div id="chart-comparison" style="margin-top: 1.5rem"></div>
-{% endblock %} {% block scripts %}
-<script>
-    var partyNames = {{ parties | safe }};
+    <h2>Vote share v seat share</h2>
+    <p>
+        Compare each party's share of the vote with their share of seats in
+        Parliament.
+    </p>
+    <div id="chart-comparison" style="margin-top: 1.5rem"></div>
+{% endblock %}
+{% block scripts %}
+    <script>
+        var partyNames = {{ parties | safe }};
 
-    // Chart 1: Seats won
-    Highcharts.chart('chart-seats', {
-        chart: { type: 'bar' },
-        title: { text: null},
-        xAxis: {
-            categories: partyNames,
+        // Chart 1: Seats won
+        Highcharts.chart('chart-seats', {
+            chart: {type: 'bar'},
+            title: {text: null},
+            xAxis: {
+                categories: partyNames,
 
-        },
-        yAxis: {
-            title: { text: 'Seats' }
-        },
-        tooltip: {
-            valueSuffix: ' seats'
-        },
-        legend: { enabled: false },
-        series: [{
-            name: 'Seats won',
-            data: {{ seats_won | safe }}
-        }]
-    });
+            },
+            yAxis: {
+                title: {text: 'Seats'}
+            },
+            tooltip: {
+                valueSuffix: ' seats'
+            },
+            legend: {enabled: false},
+            series: [{
+                name: 'Seats won',
+                data: {{ seats_won | safe }}
+            }]
+        });
 
-    // Chart 2: Vote share
-    Highcharts.chart('chart-vote-share', {
-        chart: { type: 'bar' },
-        title: { text: null},
-        xAxis: {
-            categories: partyNames,
-        },
-        yAxis: {
-            title: { text: 'Vote share (%)' }
-        },
-        tooltip: {
-            valueSuffix: '%'
-        },
-        legend: { enabled: false },
-        series: [{
-            name: 'Vote share',
-            data: {{ vote_shares | safe }}
-        }]
-    });
+        // Chart 2: Vote share
+        Highcharts.chart('chart-vote-share', {
+            chart: {type: 'bar'},
+            title: {text: null},
+            xAxis: {
+                categories: partyNames,
+            },
+            yAxis: {
+                title: {text: 'Vote share (%)'}
+            },
+            tooltip: {
+                valueSuffix: '%'
+            },
+            legend: {enabled: false},
+            series: [{
+                name: 'Vote share',
+                data: {{ vote_shares | safe }}
+            }]
+        });
 
-    // Chart 3: Vote share v seat share
-    Highcharts.chart('chart-comparison', {
-        chart: { type: 'bar' },
-        title: { text: null },
-        xAxis: {
-            categories: partyNames,
-        },
-        yAxis: {
-            title: { text: '% share' },
-            labels: {
-                format: '{value}%'
-            }
-        },
-        tooltip: {
-            valueSuffix: '%'
-        },
-        legend: { enabled: true },
-        series: [{
-            name: 'Vote share',
-            data: {{ vote_shares | safe }}
-        }, {
-            name: 'Seat share',
-            color: '#f66068',
-            data: {{ seat_shares | safe }}
-        }]
-    });
-</script>
+        // Chart 3: Vote share v seat share
+        Highcharts.chart('chart-comparison', {
+            chart: {type: 'bar'},
+            title: {text: null},
+            xAxis: {
+                categories: partyNames,
+            },
+            yAxis: {
+                title: {text: '% share'},
+                labels: {
+                    format: '{value}%'
+                }
+            },
+            tooltip: {
+                valueSuffix: '%'
+            },
+            legend: {enabled: true},
+            series: [{
+                name: 'Vote share',
+                data: {{ vote_shares | safe }}
+            }, {
+                name: 'Seat share',
+                color: '#f66068',
+                data: {{ seat_shares | safe }}
+            }]
+        });
+    </script>
 {% endblock %}
