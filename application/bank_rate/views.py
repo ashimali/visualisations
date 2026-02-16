@@ -2,7 +2,7 @@ import json
 
 from flask import Blueprint, render_template
 
-from application.utils import load_data, timestamp_ms
+from application.utils import load_data
 
 bank_rate = Blueprint("bank_rate", __name__, template_folder="templates")
 
@@ -14,10 +14,7 @@ def index():
     # CSV is already reverse chronological, most recent first, so we reverse to get oldest first
     records.reverse()
 
-    series_data = [
-        [timestamp_ms(r["Date Changed"], fmt="%d %b %y"), float(r["Rate"])]
-        for r in records
-    ]
+    series_data = [[r["Date Changed"], float(r["Rate"])] for r in records]
 
     return render_template(
         "bank-rate.html",

@@ -3,7 +3,7 @@ from collections import defaultdict
 
 from flask import Blueprint, render_template
 
-from application.utils import load_data, timestamp_ms
+from application.utils import load_data
 
 house_prices = Blueprint("house_prices", __name__, template_folder="templates")
 
@@ -15,9 +15,7 @@ def index():
     records = load_data("Average-price-seasonally-adjusted-2025-11.csv")
     by_region = defaultdict(list)
     for r in records:
-        by_region[r["Region_Name"]].append(
-            [timestamp_ms(r["Date"]), int(r["Average_Price_SA"])]
-        )
+        by_region[r["Region_Name"]].append([r["Date"], int(r["Average_Price_SA"])])
 
     # Chart 1: individual regions (exclude England & Wales, GB and UK)
     all_regions_series = [
