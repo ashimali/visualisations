@@ -1,0 +1,55 @@
+{% extends "base.html" %} {% block title %}Fuel and oil prices — Visualisations{% endblock %} {% block content %}
+    <h1>Fuel and oil prices</h1>
+    <p>
+        The data for this graph is available
+        <a href="https://www.gov.uk/government/statistical-data-sets/oil-and-petroleum-products-monthly-statistics"
+        >here</a
+        >.
+    </p>
+    <p>The following processing was done on source data:</p>
+    <ul>
+        <li>Extract table 4.12 from Excel spreadsheet as CSV</li>
+        <li>Arbitrarily picked last ten years of petrol (one type - as in premium unleaded) and diesel</li>
+    </ul>
+    <p>
+        Source:
+        <a href="https://www.gov.uk/government/statistical-data-sets/oil-and-petroleum-products-monthly-statistics">
+            Monthly and annual prices of road fuels and petroleum products
+        </a>
+    </p>
+    <p>Dataset: <a
+            href="https://assets.publishing.service.gov.uk/media/6978dcbad6ab92f1d3a4d6d5/table_411_413__5_.xlsx">Excel</a>
+    </p>
+    <p>Publisher: Department for Energy Security and Net Zero</p>
+    <p><a href="https://github.com/ashimali/visualisations/blob/main/application/fuel_and_oil/views.py">Source code</a>
+        (links to view method, js is in the template)</p>
+
+    <hr/>
+
+    <div id="petrol-and-diesel" style="margin-top: 1.5rem"></div>
+
+{% endblock %} {% block scripts %}
+    <script>
+        Highcharts.chart('petrol-and-diesel', {
+            yAxis: {
+                title: {
+                    text: 'Price in pence per litre'
+                }
+            },
+
+            xAxis: {
+                type: 'datetime',
+                title: {text: 'Year'}
+            },
+            chart: {height: 500},
+            title: {text: null},
+            series: {{ series | safe }},
+            legend: {
+                enabled: true,
+                layout: 'horizontal',
+                align: 'center'
+            }
+        });
+
+    </script>
+{% endblock %}

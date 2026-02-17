@@ -37,6 +37,7 @@ def register_blueprints(app):
     from application.elections.views import elections
     from application.frontend.views import frontend
     from application.house_prices.views import house_prices
+    from application.fuel_and_oil.views import fuel_and_oil
 
     app.register_blueprint(frontend)
     app.register_blueprint(house_prices)
@@ -44,6 +45,7 @@ def register_blueprints(app):
     app.register_blueprint(bank_rate)
     app.register_blueprint(companies_house)
     app.register_blueprint(charities)
+    app.register_blueprint(fuel_and_oil)
 
 
 def register_extensions(app):
