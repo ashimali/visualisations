@@ -1,6 +1,7 @@
-{% extends "base.html" %} {% block title %}UK General Election 2024 — Visualisations{% endblock %}
-
+{% extends "base.html" %}
+{% block title %}UK General Election 2024 — Visualisations{% endblock %}
 {% block content %}
+    <p><a href="{{ url_for('frontend.visualisations') }}">Back to visualisations index</a></p>
     <h1>UK General Election, 4 July 2024</h1>
     <p>
         The data for these graphs is available from the
@@ -28,7 +29,8 @@
         >
     </p>
     <p>Publisher: House of Commons</p>
-    <p><a href="https://github.com/ashimali/visualisations/blob/main/application/elections/views.py">Source code</a> (links to view method, js is in the template)</p>
+    <p><a href="https://github.com/ashimali/visualisations/blob/main/application/elections/views.py">Source code</a>
+        (links to view method, js is in the template)</p>
 
     <hr/>
 

@@ -4,6 +4,7 @@
 from dotenv import load_dotenv
 from flask import Flask, render_template
 
+
 load_dotenv()
 
 # from application.extensions import (
@@ -38,6 +39,8 @@ def register_blueprints(app):
     from application.frontend.views import frontend
     from application.house_prices.views import house_prices
     from application.fuel_and_oil.views import fuel_and_oil
+    from application.feedback.views import feedback
+    from application.air_pollution.views import air_pollution
 
     app.register_blueprint(frontend)
     app.register_blueprint(house_prices)
@@ -46,6 +49,8 @@ def register_blueprints(app):
     app.register_blueprint(companies_house)
     app.register_blueprint(charities)
     app.register_blueprint(fuel_and_oil)
+    app.register_blueprint(feedback)
+    app.register_blueprint(air_pollution)
 
 
 def register_extensions(app):

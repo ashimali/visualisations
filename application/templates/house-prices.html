@@ -1,5 +1,7 @@
-{% extends "base.html" %} {% block title %}UK House Prices — Visualisations{% endblock %}
+{% extends "base.html" %}
+{% block title %}UK House Prices — Visualisations{% endblock %}
 {% block content %}
+    <p><a href="{{ url_for('frontend.visualisations') }}">Back to visualisations index</a></p>
     <h1>UK Average house prices (seasonally adjusted)</h1>
     <p>
         The data for these graphs is available from the
@@ -10,9 +12,8 @@
         published on gov.uk.
     </p>
     <p>A few straightforward processing steps were applied to the source data:</p>
-    <ul>
-        <li>Filtering of regions</li>
-        <li>Sorting by price for the bar chart</li>
+    <li>Filtering of regions</li>
+    <li>Sorting by price for the bar chart</li>
     </ul>
     <p>
         Source:
@@ -31,7 +32,8 @@
         </a>
     </p>
     <p>Publisher: HM Land Registry</p>
-    <p><a href="https://github.com/ashimali/visualisations/blob/main/application/house_prices/views.py">Source code</a> (links to view method, js is in the template)</p>
+    <p><a href="https://github.com/ashimali/visualisations/blob/main/application/house_prices/views.py">Source code</a>
+        (links to view method, js is in the template)</p>
 
     <hr/>
 

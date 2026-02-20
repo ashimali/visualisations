@@ -1,84 +1,88 @@
-{% extends "base.html" %} {% block title %}Top 10 charities — Visualisations{% endblock %} {% block content %}
-<h1>Top 10 charities</h1>
-<p>
-    The data for these graphs is available from the
-    <a
-        href="https://register-of-charities.charitycommission.gov.uk/en/sector-data/top-10-charities"
-        >Charity Commission top 10 charities</a
-    >
-    page. The source data includes other measures (investments, employees,
-    volunteers, etc.) but the charts below cover income, expenditure, and their
-    year-on-year growth.
-</p>
-<p>A few straightforward processing steps were applied to the source data</p>
-<ul>
-    <li>
-        Filtering of four measures: income, expenditure, income growth,
-        expenditure growth
-    </li>
-    <li>Formatting values as pounds sterling</li>
-    <li>Formatting of numbers as millions or billions according to what suited chart</li>
-</ul>
-<p>
-    Source:
-    <a
-        href="https://register-of-charities.charitycommission.gov.uk/en/sector-data/top-10-charities"
-    >
-        Top 10 charities, Charity Commission
-    </a>
-</p>
-<p>
-    Dataset:
-    <a
-        href="https://register-of-charities.charitycommission.gov.uk/en/sector-data/top-10-charities?p_p_id=uk_gov_ccew_onereg_sectordata_topcharities_web_portlet_SectorDataTopCharitiesPortlet_INSTANCE_XrL4bSuowub2&p_p_lifecycle=2&p_p_state=normal&p_p_mode=view&p_p_resource_id=export-results&p_p_cacheability=cacheLevelPage"
-    >
-        CSV
-    </a>
-</p>
-<p>Publisher: Charity Commission for England and Wales</p>
-<p><a href="https://github.com/ashimali/visualisations/blob/main/application/charities/views.py">Source code</a> (links to view method, js is in the template)</p>
-<hr />
+{% extends "base.html" %} {% block title %}Top 10 charities — Visualisations{% endblock %}
 
-{% for chart in charts %}
-<h2>{{ chart.title }}</h2>
-<div id="chart-{{ loop.index }}" style="margin-top: 1.5rem"></div>
-{% if not loop.last %}
-<hr />
-{% endif %} {% endfor %} {% endblock %} {% block scripts %}
-<script>
+{% block content %}
+    <p><a href="{{ url_for('frontend.visualisations') }}">Back to visualisations index</a></p>
+    <h1>Top 10 charities</h1>
+    <p>
+        The data for these graphs is available from the
+        <a
+                href="https://register-of-charities.charitycommission.gov.uk/en/sector-data/top-10-charities"
+        >Charity Commission top 10 charities</a
+        >
+        page. The source data includes other measures (investments, employees,
+        volunteers, etc.) but the charts below cover income, expenditure, and their
+        year-on-year growth.
+    </p>
+    <p>A few straightforward processing steps were applied to the source data</p>
+    <ul>
+        <li>
+            Filtering of four measures: income, expenditure, income growth,
+            expenditure growth
+        </li>
+        <li>Formatting values as pounds sterling</li>
+        <li>Formatting of numbers as millions or billions according to what suited chart</li>
+    </ul>
+    <p>
+        Source:
+        <a
+                href="https://register-of-charities.charitycommission.gov.uk/en/sector-data/top-10-charities"
+        >
+            Top 10 charities, Charity Commission
+        </a>
+    </p>
+    <p>
+        Dataset:
+        <a
+                href="https://register-of-charities.charitycommission.gov.uk/en/sector-data/top-10-charities?p_p_id=uk_gov_ccew_onereg_sectordata_topcharities_web_portlet_SectorDataTopCharitiesPortlet_INSTANCE_XrL4bSuowub2&p_p_lifecycle=2&p_p_state=normal&p_p_mode=view&p_p_resource_id=export-results&p_p_cacheability=cacheLevelPage"
+        >
+            CSV
+        </a>
+    </p>
+    <p>Publisher: Charity Commission for England and Wales</p>
+    <p><a href="https://github.com/ashimali/visualisations/blob/main/application/charities/views.py">Source code</a>
+        (links to view method, js is in the template)</p>
+    <hr/>
+
     {% for chart in charts %}
-    Highcharts.chart('chart-{{ loop.index }}', {
-        chart: { type: 'bar' },
-        title: { text: null },
-        xAxis: {
-            categories: {{ chart.categories | safe }},
-            title: { text: null }
-        },
-        yAxis: {
-            title: { text: null },
-            labels: {
-                formatter: function () {
-                    {% if chart.unit == 'bn' %}
-                    return '£' + Highcharts.numberFormat(Math.abs(this.value) / 1e9, 1) + 'bn';
-                    {% else %}
-                    return '£' + Highcharts.numberFormat(Math.abs(this.value) / 1e6, 0) + 'm';
-                    {% endif %}
-                }
-            }
-        },
-        tooltip: {
-            formatter: function () {
-                return this.point.category + '<br/>' +
-                    this.series.name + ': <b>£' +
-                    Highcharts.numberFormat(Math.abs(this.y), 0) + '</b>';
-            }
-        },
-        legend: { enabled: false },
-        series: [{
-            name: '{{ chart.title }}',
-            data: {{ chart.data | safe }}
-        }]
-    });
-    {% endfor %}
-</script>
+        <h2>{{ chart.title }}</h2>
+        <div id="chart-{{ loop.index }}" style="margin-top: 1.5rem"></div>
+        {% if not loop.last %}
+            <hr/>
+        {% endif %} {% endfor %} {% endblock %} {% block scripts %}
+    <script>
+        {% for chart in charts %}
+            Highcharts.chart('chart-{{ loop.index }}', {
+                chart: {type: 'bar'},
+                title: {text: null},
+                xAxis: {
+                    categories: {{ chart.categories | safe }},
+                    title: {text: null}
+                },
+                yAxis: {
+                    title: {text: null},
+                    labels: {
+                        formatter: function () {
+                            {% if chart.unit == 'bn' %}
+                                return '£' + Highcharts.numberFormat(Math.abs(this.value) / 1e9, 1) + 'bn';
+                            {% else %}
+                                return '£' + Highcharts.numberFormat(Math.abs(this.value) / 1e6, 0) + 'm';
+                            {% endif %}
+                        }
+                    }
+                },
+                tooltip: {
+                    formatter: function () {
+                        return this.point.category + '<br/>' +
+                            this.series.name + ': <b>£' +
+                            Highcharts.numberFormat(Math.abs(this.y), 0) + '</b>';
+                    }
+                },
+                legend: {enabled: false},
+                series: [{
+                    name: '{{ chart.title }}',
+                    data: {{ chart.data | safe }}
+                }]
+            });
+        {% endfor %}
+    </script>
 {% endblock %}

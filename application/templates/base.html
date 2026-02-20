@@ -9,6 +9,7 @@
             rel="stylesheet"
             href="https://cdn.ons.gov.uk/sdc/design-system/62.0.1/css/main.css"
     />
+
     {% block head %}{% endblock %}
 </head>
 <body>
@@ -18,26 +19,15 @@
             <div class="ons-header__top">
                 <div class="ons-container">
                     <div class="ons-header__title">
-                        <a href="/">{% block titlebar_service %}Visualisations{% endblock %}</a>
+                        <a href="/">{% block titlebar_service %}Sandbox{% endblock %}</a>
                     </div>
                 </div>
             </div>
         </header>
     </div>
     <div class="ons-page__body">
-        <div class="ons-container" style="margin-bottom: 25px">
-            <div class="ons-panel ons-panel--info ons-panel--no-title">
-                <span class="ons-panel__assistive-text ons-u-vh">Important information: </span>
-                <div class="ons-panel__body">
-                    <p>These graphs should not be taken design suggestions/recommendations. They are just examples of what can be easily created from
-                        source data.</p>
-                    <p><strong>Only the source data</strong>  should be considered a recommendation. The recommendation is based on being easy to find, use and trust.</p>
-                    <p>Remember you can swap a bar chart for a line chart, or filter out data to make it more legible or even leave out visualisations completely. Just do what is needed.</p>
-                </div>
-            </div>
-        </div>
         <div class="ons-container">
-            {% block content %} {% endblock %}
+            {% block content %}{% endblock %}
         </div>
     </div>
 </div>
