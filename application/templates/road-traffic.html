@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{% block title %}Road traffic estimates — Visualisations{% endblock %}
+{% block content %}
+    <p><a href="{{ url_for('frontend.visualisations') }}">Back to visualisations index</a></p>
+    <h1>Provisional road traffic estimates, Great Britain</h1>
+    <p>
+        The main page for this is
+        <a href="https://www.gov.uk/government/statistics/provisional-road-traffic-estimates-great-britain-october-2024-to-september-2025/provisional-road-traffic-estimates-great-britain-october-2024-to-september-2025"
+        >DfT road traffic statistics (TRA25)</a
+        >.
+    </p>
+    <p>There are links from there to the underlying data sources. See below.</p>
+    <p>A few straightforward processing steps were applied to the source data</p>
+    <ul>
+        <li>Extracted rolling annual totals from ODS files to CSV</li>
+        <li>Calculated percentage shares from the latest period</li>
+        <li>Grouped 'A' roads (rural and urban) and minor roads (rural and urban)</li>
+    </ul>
+    <p>
+        Source:
+        <a href="https://www.gov.uk/government/statistical-data-sets/tra25-quarterly-estimates"
+        >Provisional road traffic estimates, Great Britain</a
+        >
+    </p>
+    <p>
+        Datasets:
+        <ul>
+            <li><a href="https://assets.publishing.service.gov.uk/media/69317b5e5b5198836f304075/tra2501-miles-by-vehicle-type.ods">tra2501 ODS</a></li>
+            <li><a href="https://assets.publishing.service.gov.uk/media/693177a2502f392086ee8c02/tra2502-miles-by-road-class.ods">tra2502 ODS</a></li>
+        </ul>
+    </p>
+    <p>Publisher: Department for Transport</p>
+    <p><a href="https://github.com/ashimali/visualisations/blob/main/application/road_traffic/views.py">Source code</a>
+        (links to view method, js is in the template)</p>
+
+    <hr/>
+
+    <h2>Traffic by vehicle type</h2>
+    <p>Percentage of motor vehicle traffic by vehicle type, year ending {{ vehicle_period }}.</p>
+    <div id="chart-vehicle-type" style="margin-top: 1.5rem"></div>
+
+    <hr/>
+
+    <h2>Traffic by road type</h2>
+    <p>Percentage of motor vehicle traffic by road classification, year ending {{ road_period }}.</p>
+    <div id="chart-road-type" style="margin-top: 1.5rem"></div>
+{% endblock %}
+{% block scripts %}
+    <script>
+        // Chart 2: Traffic by vehicle type
+        Highcharts.chart('chart-vehicle-type', {
+            chart: {type: 'bar'},
+            title: {text: null},
+            xAxis: {
+                categories: {{ vehicle_labels | safe }},
+            },
+            yAxis: {
+                title: {text: 'Share of traffic (%)'},
+                labels: {
+                    format: '{value}%'
+                }
+            },
+            tooltip: {
+                valueSuffix: '%'
+            },
+            legend: {enabled: false},
+            series: [{
+                name: 'Share of traffic',
+                data: {{ vehicle_values | safe }}
+            }]
+        });
+
+        // Chart 6: Traffic by road type
+        Highcharts.chart('chart-road-type', {
+            chart: {type: 'bar'},
+            title: {text: null},
+            xAxis: {
+                categories: {{ road_labels | safe }},
+            },
+            yAxis: {
+                title: {text: 'Share of traffic (%)'},
+                labels: {
+                    format: '{value}%'
+                }
+            },
+            tooltip: {
+                valueSuffix: '%'
+            },
+            legend: {enabled: false},
+            series: [{
+                name: 'Share of traffic',
+                data: {{ road_values | safe }}
+            }]
+        });
+    </script>
+{% endblock %}
