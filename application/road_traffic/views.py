@@ -6,8 +6,8 @@ from application.utils import load_data
 
 road_traffic = Blueprint("road_traffic", __name__, template_folder="templates")
 
-VEHICLE_TYPE_FILE = "tra2501a-rolling-annual-miles-by-vehicle-type.csv"
-ROAD_CLASS_FILE = "tra2502a-rolling-annual-miles-by-road-class.csv"
+VEHICLE_TYPE_FILE = "tra2501-miles-by-vehicle-type_TRA2501a.csv"
+ROAD_CLASS_FILE = "tra2502-miles-by-road-class_TRA2502a.csv"
 
 
 @road_traffic.route("/road-traffic")
