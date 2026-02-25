@@ -42,6 +42,7 @@ def register_blueprints(app):
     from application.feedback.views import feedback
     from application.air_pollution.views import air_pollution
     from application.road_traffic.views import road_traffic
+    from application.deprivation.views import deprivation
 
     app.register_blueprint(frontend)
     app.register_blueprint(house_prices)
@@ -53,6 +54,7 @@ def register_blueprints(app):
     app.register_blueprint(feedback)
     app.register_blueprint(air_pollution)
     app.register_blueprint(road_traffic)
+    app.register_blueprint(deprivation)
 
 
 def register_extensions(app):

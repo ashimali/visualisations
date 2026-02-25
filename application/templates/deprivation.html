@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+{% block title %}Index of Deprivation — Visualisations{% endblock %}
+{% block content %}
+    <p><a href="{{ url_for('frontend.visualisations') }}">Back to visualisations index</a></p>
+    <h1>Index of Multiple Deprivation (IMD) 2025</h1>
+    <p>
+        The data for these graphs is from the
+        <a href="https://deprivation.communities.gov.uk/">English Indices of Deprivation</a>
+        published by MHCLG.
+    </p>
+    <p>The following processing was done on source data:</p>
+    <ul>
+        <li>The download was a filtered subset from the
+            <a href="https://deprivation.communities.gov.uk/download-subset">custom download page</a>,
+            selecting CSV format, the top-level IMD index, all of England, at Local Authority District
+            geography (not LSOA)</li>
+        <li>Joined with ONS Local Authority District to Region lookup to add region names</li>
+        <li>Sorted by rank for the bar charts</li>
+        <li>Averaged rank by region for the regional chart</li>
+    </ul>
+    <p>
+        Source:
+        <a href="https://deprivation.communities.gov.uk/">
+            English Indices of Deprivation
+        </a>
+    </p>
+    <p>
+        Dataset:
+        <a href="https://deprivation.communities.gov.uk/download-subset">
+            Custom data download (CSV)
+        </a>
+    </p>
+    <p>Publisher: MHCLG</p>
+    <p><a href="https://github.com/ashimali/visualisations/blob/main/application/deprivation/views.py">Source code</a>
+        (links to view method, js is in the template)</p>
+
+    <hr/>
+
+    <h2>20 most deprived local authorities</h2>
+    <p>
+        Local authorities with the lowest IMD rank (1 = most deprived out of {{ total_lads }}).
+    </p>
+    <div id="chart-most-deprived" style="margin-top: 1.5rem"></div>
+
+    <hr/>
+
+    <h2>20 least deprived local authorities</h2>
+    <p>
+        Local authorities with the highest IMD rank ({{ total_lads }} = least deprived).
+    </p>
+    <div id="chart-least-deprived" style="margin-top: 1.5rem"></div>
+
+    <hr/>
+
+    <h2>Average deprivation rank by region</h2>
+    <p>
+        Average IMD rank across local authorities in each region. Lower average = more deprived.
+    </p>
+    <div id="chart-regions" style="margin-top: 1.5rem"></div>
+{% endblock %}
+{% block scripts %}
+    <script>
+        var barDefaults = {
+            chart: {type: 'bar'},
+            title: {text: null},
+            yAxis: {
+                title: {text: 'IMD Rank'},
+            },
+            tooltip: {valueDecimals: 0},
+            legend: {enabled: false},
+            plotOptions: {
+                bar: {
+                    dataLabels: {enabled: true}
+                }
+            }
+        };
+
+        Highcharts.chart('chart-most-deprived', Highcharts.merge(barDefaults, {
+            chart: {type: 'bar', height: 500},
+            xAxis: {
+                categories: {{ most_deprived_categories | safe }},
+                title: {text: null}
+            },
+            series: [{
+                name: 'IMD Rank',
+                data: {{ most_deprived_values | safe }},
+                color: '#d4351c'
+            }]
+        }));
+
+        Highcharts.chart('chart-least-deprived', Highcharts.merge(barDefaults, {
+            chart: {type: 'bar', height: 500},
+            xAxis: {
+                categories: {{ least_deprived_categories | safe }},
+                title: {text: null}
+            },
+            series: [{
+                name: 'IMD Rank',
+                data: {{ least_deprived_values | safe }},
+                color: '#00703c'
+            }]
+        }));
+
+        Highcharts.chart('chart-regions', Highcharts.merge(barDefaults, {
+            chart: {type: 'bar', height: 400},
+            xAxis: {
+                categories: {{ region_categories | safe }},
+                title: {text: null}
+            },
+            series: [{
+                name: 'Average IMD Rank',
+                data: {{ region_values | safe }},
+                color: '#1d70b8'
+            }]
+        }));
+    </script>
+{% endblock %}
